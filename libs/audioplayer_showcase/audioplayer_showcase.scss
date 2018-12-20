@@ -1,0 +1,349 @@
+
+/*
+ * Author: Audio Player with Playlist
+ * Website: http://digitalzoomstudio.net/
+ * Portfolio: http://bit.ly/nM4R6u
+ * Version: 3.00
+ * */
+
+
+
+@mixin apply_transition($transition-property, $transition-duration, $transition-timing) {
+  transition-property: $transition-property;transition-duration: $transition-duration;transition-timing-function: $transition-timing;-moz-transition-property:$transition-property;-moz-transition-duration: $transition-duration;-moz-transition-timing-function:$transition-timing;-webkit-transition-property:$transition-property;-webkit-transition-duration: $transition-duration;-webkit-transition-timing-function:$transition-timing;-o-transition-property:$transition-property;-o-transition-duration: $transition-duration;-o-transition-timing-function:$transition-timing;-ms-transition-property:$transition-property;
+  -ms-transition-duration: $transition-duration;-ms-transition-timing-function:$transition-timing;
+}
+@mixin boxsizing() {
+  -moz-box-sizing:    border-box;   -webkit-box-sizing: border-box;    box-sizing:        border-box;
+}
+
+@mixin centerit() {
+  position: absolute;
+  top:50%; left:50%; transform: translate(-50%,-50%); -webkit-transform: translate(-50%,-50%);
+}
+
+$classmain : ".audioplayer";
+
+$transition-property: all;
+$transition-duration: 0.3s;
+$transition-timing: ease-out;
+
+
+/*
+style - widget_player
+ */
+
+.list-tracks-con {
+  > .list-track:last-child {
+    margin-bottom: 0;
+  }
+
+  .list-track {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    margin-bottom: 10px;
+    $transition-property: background;
+    $transition-duration: 0.2s;
+    $transition-timing: ease-in;
+    @include apply_transition($transition-property, $transition-duration, $transition-timing);
+    $thumb_margin: 15px;
+    $size_thumb: 60px;
+    $size_thumb_with_margin: $size_thumb + $thumb_margin;
+    .track-thumb {
+      width: $size_thumb;
+      height: $size_thumb;
+      display: inline-block;
+      vertical-align: middle;
+      border: 2px solid rgba(0,0,0,.5);
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+    .track-meta {
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: $thumb_margin;
+      width: calc(100% - #{$size_thumb_with_margin});
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      .track-title {
+        color: #db4343;
+        > a {
+          color: inherit;
+          font-size: 16px;
+          font-weight: 600;
+          white-space: nowrap;
+          max-width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+      .track-author {
+        color: #777;
+        > a {
+          color: inherit;
+          font-size: 12px;
+          white-space: nowrap;
+          max-width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+      .track-number {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        color: #FFFFFF;
+        z-index: 1;
+        $transition-property: left,bottom;
+        $transition-duration: 0.2s;
+        $transition-timing: ease-out;
+        @include apply_transition($transition-property, $transition-duration, $transition-timing);
+        .the-number {
+          position: absolute;
+          bottom: 0;
+          left: 5px;
+          font-size: 12px;
+          font-weight: 700;
+          color: #FFFFFF;
+          z-index: 1;
+          transform: rotate(10deg);
+        }
+      }
+      .track-number:after {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        content: "";
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 30px 0 0 30px;
+        border-color: transparent transparent transparent rgba(17, 17, 17, 0.5);
+      }
+    }
+  }
+  .list-track:hover {
+    background-color: #F0EEEE;
+    .track-meta {
+      .track-number {
+        bottom: -15px;
+        left: -15px;
+      }
+    }
+  }
+
+  .likes-show{
+
+    position: absolute;
+    right: 10px;
+    top:50%;
+    transform: translate3d(0,-50%,0);
+
+    color: #555555;
+
+    >*{
+      display: inline-block;
+      vertical-align: middle;
+
+      &+*{
+        margin-left: 5px;
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+html[dir=rtl]{
+  p.reposted-by .the-avatar{
+    margin-right: 0;
+    margin-left: 7px;
+  }
+  body .extra-html .extra-html-btn > .the-icon, .skin-simple > i{
+    margin-right:0;
+    margin-left: 7px;
+  }
+
+  .list-track .track-meta{
+    margin-left:0;
+    margin-right: 15px;
+  }
+
+  .tags-con .tag-for-ap{
+    float:left;
+  }
+  section.mcon-mainmenu .header--right{
+    text-align: left;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+/* -- stats init */
+.stats-container{
+
+
+
+  margin-top: 10px;
+  position: relative;
+
+  font-size: 0;
+  line-height: 0;
+
+  padding:0;
+
+
+
+
+  line-height: 1.5;
+
+  font-size: 13px;
+
+  padding: 10px 15px;
+
+  margin-top:0;
+
+  //height:0;
+
+
+  background-color: rgba(30,30,30,0.8);
+
+  color: #ffffff;
+
+  opacity: 0;
+  transform: scale(0);
+
+  $transition-property: transform,opacity,padding, margin;
+  $transition-duration: 0.3s;
+  $transition-timing: ease-out;
+  @include apply_transition($transition-property, $transition-duration, $transition-timing);
+
+
+  div[class^="hidden-data"]{
+    display: none;
+  }
+  .col-sm-4{
+    text-align: center;
+  }
+
+  .the-number{
+    font-size: 50px;
+    padding-bottom: 10px;
+    display: inline-block;
+    font-weight: 300;
+  }
+
+  h6{
+    font-size: 9px;
+    font-weight: 900;
+    text-transform: uppercase;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    width: 100%;
+    color: #ffffff;
+  }
+
+  .row{
+    margin-bottom: 0;
+  }
+
+  &.loaded{
+    transform: scale(1);
+
+    opacity: 1;
+    margin-top:15px;
+
+
+    padding: 15px 15px;
+  }
+
+  &:before{
+
+    width: 0;
+    height: 0;    border-right: 10px solid transparent;
+    border-left: 0px solid transparent;
+    border-top: 8px solid #444444;
+
+    content: "";
+    position: absolute;
+    top:0;
+    left:0;
+  }
+
+  div[class^="trackchart"]{
+    text{
+      fill: #fff;
+    }
+
+    svg{
+      box-shadow: 2px 2px 6px 0 rgba(0,0,0,0.25);
+    }
+  }
+}
+div.google-visualization-tooltip > ul > li > span {
+  color: #54535b !important;
+}
+
+
+.dzs-row{
+  margin-right: -15px;
+  margin-left: -15px;
+
+  @include boxsizing();
+
+  *{
+
+    @include boxsizing();
+  }
+
+  &:after{
+    content: "";
+    clear: both;
+    display: block;
+    height: 1px;
+    margin-top: -1px;
+  }
+}
+
+.dzs-col-md-8,.dzs-col-md-6,.dzs-col-md-3,.dzs-col-md-4,.dzs-col-sm-4{
+
+  float: left;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+.dzs-col-md-8{
+
+  width: 66.6666%;
+}
+.dzs-col-md-6{
+
+  width: 50%;
+}
+.dzs-col-md-4,.dzs-col-sm-4{
+
+  width: 33.3333%;
+}
+.dzs-col-md-3{
+
+  width: 25%;
+}
+
+/* -- stats end */
